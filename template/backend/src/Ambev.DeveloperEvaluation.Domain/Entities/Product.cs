@@ -34,7 +34,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         /// <summary>
         /// Gets the product's image URL
-        /// Can be null and if informed must be a public access URL
+        /// Must not be null or empty and needs to be a public access URL
         /// </summary>
         public string Image { get; set; } = string.Empty;
 
