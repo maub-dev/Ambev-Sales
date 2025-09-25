@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories
 {
@@ -14,13 +15,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The created product</returns>
         Task<Product> CreateAsync(Product product, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Retrieves all products in the repository
-        /// </summary>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The list of the products if any, an empty list otherwise</returns>
-        Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Retrieves a product by their unique identifier
@@ -54,11 +48,18 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         Task<IEnumerable<string>> GetAllCategoriesAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Retrieves all products for a category
+        /// Retrieves all products in the system
         /// </summary>
-        /// <param name="category">The category to filter</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The list of the products if any, an empty list otherwise</returns>
-        Task<IEnumerable<Product>> GetAllProductsForCategoryAsync(string category, CancellationToken cancellationToken = default);
+        Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all products that match the predicate filter
+        /// </summary>
+        /// <param name="predicate">A func to filter products</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The list of the products if any, an empty list otherwise</returns>
+        Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default);
     }
 }

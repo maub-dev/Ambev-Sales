@@ -1,6 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories
 {
@@ -53,11 +54,10 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         /// <summary>
         /// Retrieves all products in the repository
         /// </summary>
-        /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The list of the products if any, an empty list otherwise</returns>
-        public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default)
+        public IQueryable<Product> GetAll()
         {
-            return await _context.Products.ToListAsync();
+            return _context.Products.AsQueryable();
         }
 
         /// <summary>
@@ -71,14 +71,24 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
         /// <summary>
-        /// Retrieves all products for a category
+        /// Retrieves all products in the system
         /// </summary>
-        /// <param name="category">The category to filter</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The list of the products if any, an empty list otherwise</returns>
-        public async Task<IEnumerable<Product>> GetAllProductsForCategoryAsync(string category, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.Products.Where(x => x.Category == category).ToListAsync();
+            return await Task.FromResult(await _context.Products.AsNoTracking().ToListAsync());
+        }
+
+        /// <summary>
+        /// Retrieves all products that match the predicate filter
+        /// </summary>
+        /// <param name="predicate">A func to filter products</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The list of the products if any, an empty list otherwise</returns>
+        public async Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default)
+        {
+            return await _context.Products.Where(predicate).ToListAsync(cancellationToken);
         }
 
         /// <summary>
