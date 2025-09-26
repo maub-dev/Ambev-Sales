@@ -1,5 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
+using Ambev.DeveloperEvaluation.Application.Products.GetAllCategories;
 using Ambev.DeveloperEvaluation.Application.Products.GetAllProducts;
 using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
@@ -158,6 +159,22 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
                 return NotFound();
 
             return Ok(new ApiResponse { Success = true, Message = "Product deleted successfully."});
+        }
+
+        /// <summary>
+        /// Gets the list of product categories
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The list of categories</returns>
+        [HttpGet("categories")]
+        [ProducesResponseType(typeof(ApiResponseWithData<string[]>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAllCategories(CancellationToken cancellationToken)
+        {
+            var command = new GetAllCategoriesCommand();
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Ok(response.Categories);
         }
     }
 }
