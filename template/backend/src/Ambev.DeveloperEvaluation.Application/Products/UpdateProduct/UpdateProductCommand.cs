@@ -1,13 +1,19 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.Shared;
 using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
+namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct
 {
     /// <summary>
-    /// Command for creating a new product
+    /// Command for updating a product by their ID
     /// </summary>
-    public class CreateProductCommand : IRequest<CreateProductResult>
+    public class UpdateProductCommand : IRequest<UpdateProductResult>
     {
+        /// <summary>
+        /// Gets or sets the unique identifier of the product.
+        /// </summary>
+        /// <value>A GUID that uniquely identifies the product in the system.</value>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Gets the product's title
         /// Must not be null or empty and should be short

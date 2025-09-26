@@ -67,7 +67,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         /// <returns>The list of the products if any, an empty list otherwise</returns>
         public async Task<IEnumerable<string>> GetAllCategoriesAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.Products.Select(x => x.Category).Distinct().ToListAsync();
+            return await _context.Products.AsNoTracking().Select(x => x.Category).Distinct().ToListAsync();
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         /// <returns>The list of the products if any, an empty list otherwise</returns>
         public async Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default)
         {
-            return await _context.Products.Where(predicate).ToListAsync(cancellationToken);
+            return await _context.Products.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         /// <returns>The product if found, null otherwise</returns>
         public async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         /// <summary>

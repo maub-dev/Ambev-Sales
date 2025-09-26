@@ -4,7 +4,7 @@ using AutoMapper;
 namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
 {
     /// <summary>
-    /// Profile for mapping between Product entity and CreateUser objects
+    /// Profile for mapping between Product entity and CreateProduct objects
     /// </summary>
     public class CreateProductProfile : Profile
     {

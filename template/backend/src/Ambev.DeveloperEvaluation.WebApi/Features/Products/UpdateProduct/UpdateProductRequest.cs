@@ -1,13 +1,15 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.Shared;
-using MediatR;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Products.Shared;
 
-namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct
 {
-    /// <summary>
-    /// Command for creating a new product
-    /// </summary>
-    public class CreateProductCommand : IRequest<CreateProductResult>
+    public class UpdateProductRequest
     {
+        /// <summary>
+        /// Gets or sets the unique identifier of the product to update.
+        /// </summary>
+        /// <value>A GUID that uniquely identifies the product in the system.</value>
+        public Guid Id { get; private set; }
+
         /// <summary>
         /// Gets the product's title
         /// Must not be null or empty and should be short
@@ -41,6 +43,11 @@ namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
         /// <summary>
         /// Gets the product's rating
         /// </summary>
-        public RatingDto Rating { get; set; }
+        public RatingRequest Rating { get; set; }
+
+        public void SetId(Guid id)
+        {
+            Id = id;
+        }
     }
 }
