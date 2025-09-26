@@ -1,10 +1,13 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.Application.Products.GetAllProducts;
+using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetAllProducts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -68,12 +71,37 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponseWithData<IEnumerable<GetAllProductsResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> GetAll([FromQuery]GetAllProductsRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetAll([FromQuery] GetAllProductsRequest request, CancellationToken cancellationToken)
         {
             var command = _mapper.Map<GetAllProductsCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
 
             return Ok(_mapper.Map<IEnumerable<GetAllProductsResponse>>(response));
+        }
+
+        /// <summary>
+        /// Gets a product by ID
+        /// </summary>
+        /// <param name="id">The unique identifier of the product</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The list of products</returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ApiResponseWithData<GetProductResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        {
+            var request = new GetProductRequest { Id = id };
+            var validator = new GetProductRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<GetProductCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Ok(_mapper.Map<GetProductResponse>(response));
+
         }
     }
 }
