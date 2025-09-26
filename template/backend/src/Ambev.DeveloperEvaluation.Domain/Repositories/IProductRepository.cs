@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Specifications;
 using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories
@@ -54,14 +55,17 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <returns>The list of the products if any, an empty list otherwise</returns>
         Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Retrieves all products in the repository
+        /// </summary>
+        /// <returns>The list of the products if any, an empty list otherwise</returns>
         IQueryable<Product> GetAll();
 
         /// <summary>
-        /// Retrieves all products that match the predicate filter
+        /// Retrieves all products that match the specification filter
         /// </summary>
         /// <param name="predicate">A func to filter products</param>
-        /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The list of the products if any, an empty list otherwise</returns>
-        Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default);
+        IQueryable<Product> Find(Expression<Func<Product, bool>> predicate);
     }
 }

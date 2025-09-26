@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetAllCategories
 {
+    /// <summary>
+    /// Handler for processing GetAllCategoriesCommand requests
+    /// </summary>
     public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesCommand, GetAllCategoriesResult>
     {
         private readonly IProductRepository _productRepository;

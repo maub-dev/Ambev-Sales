@@ -2,12 +2,14 @@
 using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.Application.Products.GetAllCategories;
 using Ambev.DeveloperEvaluation.Application.Products.GetAllProducts;
+using Ambev.DeveloperEvaluation.Application.Products.GetAllProductsForCategory;
 using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetAllProducts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetAllProductsForCategory;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
@@ -92,6 +94,30 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
             var data = response.ProjectTo<GetAllProductsResponse>(_configurationProvider);
 
             return OkPaginated(await PaginatedList<GetAllProductsResponse>.CreateAsync(data, request.Page, request.Size));
+        }
+
+        /// <summary>
+        /// Gets the list of products for a particular category
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The list of products</returns>
+        [HttpGet("category/{category}")]
+        [ProducesResponseType(typeof(PaginatedResponse<GetAllProductsForCategoryResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAllForCategory([FromQuery] GetAllProductsForCategoryRequest request, CancellationToken cancellationToken)
+        {
+            var validator = new GetAllProductsForCategoryRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<GetAllProductsForCategoryCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            var data = response.ProjectTo<GetAllProductsForCategoryResponse>(_configurationProvider);
+
+            return OkPaginated(await PaginatedList<GetAllProductsForCategoryResponse>.CreateAsync(data, request.Page, request.Size));
         }
 
         /// <summary>

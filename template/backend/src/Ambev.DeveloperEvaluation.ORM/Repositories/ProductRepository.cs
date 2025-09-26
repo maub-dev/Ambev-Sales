@@ -56,7 +56,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         /// <returns>The list of the products if any, an empty list otherwise</returns>
         public IQueryable<Product> GetAll()
         {
-            return _context.Products.AsQueryable();
+            return _context.Products.AsNoTracking().AsQueryable();
         }
 
         /// <summary>
@@ -80,14 +80,13 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
         /// <summary>
-        /// Retrieves all products that match the predicate filter
+        /// Retrieves all products that match the specification filter
         /// </summary>
         /// <param name="predicate">A func to filter products</param>
-        /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The list of the products if any, an empty list otherwise</returns>
-        public async Task<IEnumerable<Product>> FindAsync(Expression<Func<Product, bool>> predicate, CancellationToken cancellationToken = default)
+        public IQueryable<Product> Find(Expression<Func<Product, bool>> predicate)
         {
-            return await _context.Products.AsNoTracking().Where(predicate).ToListAsync(cancellationToken);
+            return _context.Products.AsNoTracking().Where(predicate).AsQueryable();
         }
 
         /// <summary>

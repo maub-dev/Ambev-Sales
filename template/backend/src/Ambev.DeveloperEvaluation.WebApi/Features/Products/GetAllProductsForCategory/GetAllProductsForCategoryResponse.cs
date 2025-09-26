@@ -1,11 +1,11 @@
 ﻿using Ambev.DeveloperEvaluation.WebApi.Features.Products.Shared;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetAllProducts
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetAllProductsForCategory
 {
     /// <summary>
-    /// Represents the response item returned for listing all products
+    /// Represents the response item returned for listing all products withing a specific category
     /// </summary>
-    public class GetAllProductsResponse
+    public class GetAllProductsForCategoryResponse
     {
         /// <summary>
         /// Gets or sets the unique identifier of the newly created product.
