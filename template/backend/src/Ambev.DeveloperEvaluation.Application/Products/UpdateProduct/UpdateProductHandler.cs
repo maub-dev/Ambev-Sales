@@ -7,6 +7,9 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct
 {
+    /// <summary>
+    /// Handler for processing UpdateProductCommand requests
+    /// </summary>
     public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, UpdateProductResult>
     {
         private readonly IProductRepository _productRepository;

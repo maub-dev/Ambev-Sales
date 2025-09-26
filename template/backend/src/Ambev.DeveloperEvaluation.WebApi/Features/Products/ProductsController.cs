@@ -1,10 +1,12 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
+using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.Application.Products.GetAllProducts;
 using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetAllProducts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
@@ -129,6 +131,33 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
             var response = await _mediator.Send(command, cancellationToken);
 
             return Ok(_mapper.Map<UpdateProductResponse>(response));
+        }
+
+        /// <summary>
+        /// Deletes a product
+        /// </summary>
+        /// <param name="id">The product id to delete</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The created product details</returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteProduct(Guid id, CancellationToken cancellationToken)
+        {
+            var request = new DeleteProductRequest { Id = id };
+            var validator = new DeleteProductRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<DeleteProductCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+            if (!response.Success)
+                return NotFound();
+
+            return Ok(new ApiResponse { Success = true, Message = "Product deleted successfully."});
         }
     }
 }

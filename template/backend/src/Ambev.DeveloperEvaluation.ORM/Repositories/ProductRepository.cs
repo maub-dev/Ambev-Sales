@@ -47,8 +47,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 return false;
 
             _context.Products.Remove(product);
-            await _context.SaveChangesAsync(cancellationToken);
-            return true;
+            return await _context.SaveChangesAsync(cancellationToken) > 0;
         }
 
         /// <summary>
