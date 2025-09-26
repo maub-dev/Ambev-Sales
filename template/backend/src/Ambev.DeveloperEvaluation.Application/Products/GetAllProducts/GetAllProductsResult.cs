@@ -1,12 +1,11 @@
-﻿using Ambev.DeveloperEvaluation.Application.Common.Pagination;
-using Ambev.DeveloperEvaluation.Application.Products.Shared;
+﻿using Ambev.DeveloperEvaluation.Application.Products.Shared;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetAllProducts
 {
     /// <summary>
     /// Represents the response item returned for product's listing.
     /// </summary>
-    public class GetAllProductsResult : PaginatedResult
+    public class GetAllProductsResult
     {
         /// <summary>
         /// Gets or sets the unique identifier of the product.

@@ -54,6 +54,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <returns>The list of the products if any, an empty list otherwise</returns>
         Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken = default);
 
+        IQueryable<Product> GetAll();
+
         /// <summary>
         /// Retrieves all products that match the predicate filter
         /// </summary>
