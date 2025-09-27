@@ -3,8 +3,23 @@ using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Validation
 {
+    /// <summary>
+    /// Validator Product entity.
+    /// </summary>
     public class ProductValidator : AbstractValidator<Product>
     {
+        /// <summary>
+        /// Initializes a new instance of the ProductValidator with defined validation rules.
+        /// </summary>
+        /// <remarks>
+        /// Validation rules include:
+        /// - Title: Not empty, length between 5 and 100
+        /// - Price: Not empty, greater than 0
+        /// - Description: Not empty, length between 10 and 500 characters
+        /// - Category: Not empty, length between 5 and 100 characters
+        /// - Image: Not empty, maximum length 1000 characters
+        /// - Rating: Uses RatingValidator
+        /// </remarks>
         public ProductValidator()
         {
             RuleFor(x => x.Title)
@@ -13,7 +28,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
                 .MaximumLength(100).WithMessage("Title cannot be longer than 100 characters.");
 
             RuleFor(x => x.Price)
-                .NotEmpty();
+                .NotEmpty()
+                .GreaterThan(0);
 
             RuleFor(x => x.Description)
                 .NotEmpty()

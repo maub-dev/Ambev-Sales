@@ -3,8 +3,19 @@ using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Validation
 {
+    /// <summary>
+    /// Validator Rating Value Object.
+    /// </summary>
     public class RatingValidator : AbstractValidator<Rating>
     {
+        /// <summary>
+        /// Initializes a new instance of the RatingValidator with defined validation rules.
+        /// </summary>
+        /// <remarks>
+        /// Validation rules include:
+        /// - Rate: Value must be between 0.0 and 5.0
+        /// - Count: Greater than or equal to zero
+        /// </remarks>
         public RatingValidator()
         {
             RuleFor(x => x.Rate)

@@ -29,7 +29,8 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct
                 .MaximumLength(100);
 
             RuleFor(x => x.Price)
-                .NotEmpty();
+                .NotEmpty()
+                .GreaterThan(0);
 
             RuleFor(x => x.Description)
                 .NotEmpty()
