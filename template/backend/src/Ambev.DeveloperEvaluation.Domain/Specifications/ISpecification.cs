@@ -1,4 +1,6 @@
-﻿namespace Ambev.DeveloperEvaluation.Domain.Specifications;
+﻿using System.Linq.Expressions;
+
+namespace Ambev.DeveloperEvaluation.Domain.Specifications;
 
 public interface ISpecification<T>
 {

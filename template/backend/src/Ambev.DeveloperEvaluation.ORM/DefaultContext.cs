@@ -9,6 +9,7 @@ namespace Ambev.DeveloperEvaluation.ORM;
 public class DefaultContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<Product> Products { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
     {
@@ -20,23 +21,23 @@ public class DefaultContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 }
-public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
-{
-    public DefaultContext CreateDbContext(string[] args)
-    {
-        IConfigurationRoot configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
+//public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
+//{
+//    public DefaultContext CreateDbContext(string[] args)
+//    {
+//        IConfigurationRoot configuration = new ConfigurationBuilder()
+//            .SetBasePath(Directory.GetCurrentDirectory())
+//            .AddJsonFile("appsettings.json")
+//            .Build();
 
-        var builder = new DbContextOptionsBuilder<DefaultContext>();
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
+//        var builder = new DbContextOptionsBuilder<DefaultContext>();
+//        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        builder.UseNpgsql(
-               connectionString,
-               b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.WebApi")
-        );
+//        builder.UseNpgsql(
+//               connectionString,
+//               b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.WebApi")
+//        );
 
-        return new DefaultContext(builder.Options);
-    }
-}
+//        return new DefaultContext(builder.Options);
+//    }
+//}
