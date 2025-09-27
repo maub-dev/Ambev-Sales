@@ -8,6 +8,12 @@ namespace Ambev.DeveloperEvaluation.Domain.ValueObjects
     public class CartItem
     {
         /// <summary>
+        /// Gets the cart id that owns the cart item
+        /// Must not be null
+        /// </summary>
+        public Guid CartId { get; set; }
+
+        /// <summary>
         /// Gets the product id for the cart item
         /// Must not be null
         /// </summary>
