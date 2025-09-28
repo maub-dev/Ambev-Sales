@@ -65,5 +65,33 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Shared
 
             return await _saleRepository.CreateAsync(sale, cancellationToken);
         }
+
+        public async Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default)
+        {
+            var existing = await _saleRepository.GetByIdAsync(sale.Id, cancellationToken);
+            if (existing is null)
+                throw new InvalidOperationException($"The sale {sale.Id} was not found.");
+
+            sale.Activate();
+
+            foreach (var item in sale.Products)
+            {
+                var product = await _productRepository.GetByIdAsync(item.ProductId, cancellationToken);
+                if (product is null)
+                    throw new InvalidOperationException($"The product {item.ProductId} was not found.");
+
+                item.SetOriginalPrice(product.Price);
+            }
+
+            sale.RecalculateTotal();
+
+            var validator = new SaleValidator();
+            var validationResult = await validator.ValidateAsync(sale, cancellationToken);
+
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
+
+            return await _saleRepository.UpdateAsync(sale, cancellationToken);
+        }
     }
 }
