@@ -38,5 +38,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>The updated sale</returns>
         Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all sales in the repository
+        /// </summary>
+        /// <returns>The list of the sales if any, an empty list otherwise</returns>
+        IQueryable<Sale> GetAll();
     }
 }

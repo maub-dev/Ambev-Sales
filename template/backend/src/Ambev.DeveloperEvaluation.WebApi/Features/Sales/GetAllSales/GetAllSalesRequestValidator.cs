@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetAllCarts
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetAllSales
 {
-    public class GetAllCartsRequestValidator : AbstractValidator<GetAllCartsRequest>
+    public class GetAllSalesRequestValidator : AbstractValidator<GetAllSalesRequest>
     {
-        public GetAllCartsRequestValidator()
+        public GetAllSalesRequestValidator()
         {
             RuleFor(x => x.Page)
                 .NotEmpty()

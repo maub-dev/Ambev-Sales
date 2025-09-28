@@ -1,18 +1,18 @@
-﻿using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
+﻿using Ambev.DeveloperEvaluation.Application.Sales.GetAllSales;
 using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
 using Ambev.DeveloperEvaluation.Application.Sales.CancelSaleItem;
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 using Ambev.DeveloperEvaluation.WebApi.Common;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCart;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetAllSales;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSaleItem;
-using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper.QueryableExtensions;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 {
@@ -38,6 +38,30 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             _mediator = mediator;
             _mapper = mapper;
             _configurationProvider = configurationProvider;
+        }
+
+        /// <summary>
+        /// Gets the list of sales
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The list of sales</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(PaginatedResponse<GetAllSalesResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAll([FromQuery] GetAllSalesRequest request, CancellationToken cancellationToken)
+        {
+            var validator = new GetAllSalesRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<GetAllSalesCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            var data = response.ProjectTo<GetAllSalesResponse>(_configurationProvider);
+
+            return OkPaginated(await PaginatedList<GetAllSalesResponse>.CreateAsync(data, request.Page, request.Size));
         }
 
         /// <summary>
