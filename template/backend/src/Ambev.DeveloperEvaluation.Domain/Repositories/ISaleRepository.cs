@@ -16,6 +16,14 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Gets sale details
+        /// </summary>
+        /// <param name="id">The sale item id to retrieve</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The sale details</returns>
+        Task<Sale?> GetBySaleItemIdAsync(Guid saleItemId, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Creates a new sale in the repository
         /// </summary>
         /// <param name="sale">The sale to create</param>

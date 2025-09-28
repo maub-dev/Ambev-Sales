@@ -6,7 +6,7 @@
     public class CancelSaleRequest
     {
         /// <summary>
-        /// The unique identifier of the sale to cancell
+        /// The unique identifier of the sale to cancel
         /// </summary>
         public Guid Id { get; set; }
     }

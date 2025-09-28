@@ -3,19 +3,19 @@ using AutoMapper;
 using FluentValidation;
 using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSale
+namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSaleItem
 {
-    public class CancelSaleHandler : IRequestHandler<CancelSaleCommand, CancelSaleResult>
+    public class CancelSaleItemHandler : IRequestHandler<CancelSaleItemCommand, CancelSaleItemResult>
     {
         private readonly ISaleService _saleService;
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Initializes a new instance of CancelSaleHandler
+        /// Initializes a new instance of CancelSaleItemHandler
         /// </summary>
         /// <param name="saleService">The sale repository</param>
         /// <param name="mapper">The AutoMapper instance</param>
-        public CancelSaleHandler(
+        public CancelSaleItemHandler(
             ISaleService saleService,
             IMapper mapper)
         {
@@ -24,22 +24,22 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSale
         }
 
         /// <summary>
-        /// Handles the CancelSaleCommand request
+        /// Handles the CancelSaleItemCommand request
         /// </summary>
-        /// <param name="request">The CancelSale command</param>
+        /// <param name="request">The CancelSaleItem command</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>A boolean indicating if the cancelation was succesfull</returns>
-        public async Task<CancelSaleResult> Handle(CancelSaleCommand request, CancellationToken cancellationToken)
+        public async Task<CancelSaleItemResult> Handle(CancelSaleItemCommand request, CancellationToken cancellationToken)
         {
-            var validator = new CancelSaleValidator();
+            var validator = new CancelSaleItemValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            await _saleService.CancelAsync(request.Id, cancellationToken);
+            await _saleService.CancelItemAsync(request.SaleId, request.SaleItemId, cancellationToken);
 
-            return new CancelSaleResult { Success = true };
+            return new CancelSaleItemResult { Success = true };
         }
     }
 }

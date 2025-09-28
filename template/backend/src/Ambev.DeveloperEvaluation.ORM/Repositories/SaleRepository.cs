@@ -66,5 +66,18 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         {
             return await _context.Sale.Include(x => x.Products).AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
+
+        /// <summary>
+        /// Gets sale details
+        /// </summary>
+        /// <param name="saleItemId">The sale item id to retrieve</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The sale details</returns>
+        public async Task<Sale?> GetBySaleItemIdAsync(Guid saleItemId, CancellationToken cancellationToken = default)
+        {
+            return await _context.Sale.Include(x => x.Products)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Products.First().SaleId == saleItemId, cancellationToken);
+        }
     }
 }
