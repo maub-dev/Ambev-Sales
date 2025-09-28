@@ -1,5 +1,9 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
+using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
+using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCart;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 using AutoMapper;
@@ -58,6 +62,32 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
                 Message = "Sale created successfully",
                 Data = _mapper.Map<CreateSaleResponse>(response)
             });
+        }
+
+        /// <summary>
+        /// Cancel a sale
+        /// </summary>
+        /// <param name="id">The sale id to cancel</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        [HttpPatch("{id}/cancel")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CancelSale(Guid id, CancellationToken cancellationToken)
+        {
+            var request = new CancelSaleRequest { Id = id };
+            var validator = new CancelSaleRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<CancelSaleCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+            if (!response.Success)
+                return NotFound();
+
+            return Ok(new ApiResponse { Success = true, Message = "Sale cancelled successfully." });
         }
     }
 }
