@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.WebApi.Common;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetAllProducts
 {

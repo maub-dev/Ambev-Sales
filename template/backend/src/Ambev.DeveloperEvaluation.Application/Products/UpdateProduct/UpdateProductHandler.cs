@@ -26,7 +26,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct
         /// </summary>
         /// <param name="command">The UpdateProduct command</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The updated user details</returns>
+        /// <returns>The updated product details</returns>
         public async Task<UpdateProductResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var validator = new UpdateProductValidator();
