@@ -175,7 +175,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
         /// </summary>
         /// <param name="id">The product id to delete</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The created product details</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]

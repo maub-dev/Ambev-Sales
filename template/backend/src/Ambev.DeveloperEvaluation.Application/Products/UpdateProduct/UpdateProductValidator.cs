@@ -7,6 +7,9 @@ namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct
     {
         public UpdateProductValidator()
         {
+            RuleFor(x => x.Id)
+                .NotEmpty();
+
             RuleFor(x => x.Title)
                 .NotEmpty()
                 .MinimumLength(5)
