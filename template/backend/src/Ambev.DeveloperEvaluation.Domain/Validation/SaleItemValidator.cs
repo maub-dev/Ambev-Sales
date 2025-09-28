@@ -24,8 +24,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
         /// </remarks>
         public SaleItemValidator()
         {
-            RuleFor(x => x.SaleId)
-                .NotEmpty();
+            //RuleFor(x => x.SaleId)
+            //    .NotEmpty();
 
             RuleFor(x => x.ProductId)
                 .NotEmpty();
