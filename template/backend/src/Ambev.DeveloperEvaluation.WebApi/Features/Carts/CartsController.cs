@@ -1,13 +1,12 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
-using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
-using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
+using Ambev.DeveloperEvaluation.Application.Carts.GetAllCarts;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCart;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetAllCarts;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +34,30 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
             _mediator = mediator;
             _mapper = mapper;
             _configurationProvider = configurationProvider;
+        }
+
+        /// <summary>
+        /// Gets the list of carts
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The list of carts</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(PaginatedResponse<GetAllCartsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetAll([FromQuery] GetAllCartsRequest request, CancellationToken cancellationToken)
+        {
+            var validator = new GetAllCartsRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<GetAllCartsCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            var data = response.ProjectTo<GetAllCartsResponse>(_configurationProvider);
+
+            return OkPaginated(await PaginatedList<GetAllCartsResponse>.CreateAsync(data, request.Page, request.Size));
         }
 
         /// <summary>

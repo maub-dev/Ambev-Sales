@@ -7,7 +7,6 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetAllProducts
     {
         public GetAllProductsProfile()
         {
-            //CreateMap<GetAllProductsCommand, Product>();
             CreateMap<Product, GetAllProductsResult>();
         }
     }
