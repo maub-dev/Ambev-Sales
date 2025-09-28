@@ -1,5 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Services;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -8,12 +8,12 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
 {
     public class CreateSaleHandler : IRequestHandler<CreateSaleCommand, CreateSaleResult>
     {
-        private readonly ISaleRepository _saleRepository;
+        private readonly ISaleService _saleService;
         private readonly IMapper _mapper;
 
-        public CreateSaleHandler(ISaleRepository saleRepository, IMapper mapper)
+        public CreateSaleHandler(ISaleService saleService, IMapper mapper)
         {
-            _saleRepository = saleRepository;
+            _saleService = saleService;
             _mapper = mapper;
         }
 
@@ -32,11 +32,8 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
                 throw new ValidationException(validationResult.Errors);
 
             var sale = _mapper.Map<Sale>(request);
-            sale.Activate();
 
-            sale.RecalculateTotal();
-
-            var createdSale = await _saleRepository.CreateAsync(sale, cancellationToken);
+            var createdSale = await _saleService.CreateAsync(sale, cancellationToken);
             return _mapper.Map<CreateSaleResult>(createdSale);
         }
     }

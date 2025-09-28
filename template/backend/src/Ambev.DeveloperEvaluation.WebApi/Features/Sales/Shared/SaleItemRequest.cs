@@ -19,11 +19,5 @@
         /// Must not be null
         /// </summary>
         public int Quantity { get; set; }
-
-        /// <summary>
-        /// The gross price
-        /// Must not be null
-        /// </summary>
-        public decimal OriginalPrice { get; set; }
     }
 }

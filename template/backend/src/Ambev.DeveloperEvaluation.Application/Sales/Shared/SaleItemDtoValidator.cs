@@ -19,19 +19,12 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Shared
         /// </remarks>
         public SaleItemDtoValidator()
         {
-            //RuleFor(x => x.SaleId)
-            //    .NotEmpty();
-
             RuleFor(x => x.ProductId)
                 .NotEmpty();
 
             RuleFor(x => x.Quantity)
                 .NotEmpty()
                 .InclusiveBetween(1, 20);
-
-            RuleFor(x => x.OriginalPrice)
-                .NotEmpty()
-                .GreaterThan(0);
         }
     }
 }
