@@ -2,13 +2,13 @@
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
 using Ambev.DeveloperEvaluation.Application.Carts.GetAllCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.GetCart;
-using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
+using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetAllCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCart;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -115,6 +115,31 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
                 Message = "Cart created successfully",
                 Data = _mapper.Map<CreateCartResponse>(response)
             });
+        }
+
+        /// <summary>
+        /// Updates a cart
+        /// </summary>
+        /// <param name="request">The cart update request</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The udpated cart details</returns>
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(ApiResponseWithData<UpdateCartResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateCart(Guid id, [FromBody] UpdateCartRequest request, CancellationToken cancellationToken)
+        {
+            request.SetId(id);
+
+            var validator = new UpdateCartRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<UpdateCartCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Ok(_mapper.Map<UpdateCartResponse>(response));
         }
 
         /// <summary>

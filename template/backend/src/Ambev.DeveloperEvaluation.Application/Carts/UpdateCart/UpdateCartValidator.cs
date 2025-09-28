@@ -1,24 +1,28 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.Shared;
 using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
+namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
 {
     /// <summary>
-    /// Validator CreateCartCommand.
+    /// Validator UpdateCartCommand.
     /// </summary>
-    public class CreateCartValidator : AbstractValidator<CreateCartCommand>
+    public class UpdateCartValidator : AbstractValidator<UpdateCartCommand>
     {
         /// <summary>
-        /// Initializes a new instance of the CreateCartValidator with defined validation rules.
+        /// Initializes a new instance of the UpdateCartValidator with defined validation rules.
         /// </summary>
         /// <remarks>
         /// Validation rules include:
+        /// - Id: Not empty
         /// - Date: Not empty
         /// - UserId: Not empty
         /// - Products: Not empty and for each item it uses CartItemDtoValidator
         /// </remarks>
-        public CreateCartValidator()
+        public UpdateCartValidator()
         {
+            RuleFor(x => x.Id)
+                .NotEmpty();
+
             RuleFor(x => x.Date)
                 .NotEmpty();
 
@@ -31,4 +35,3 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
         }
     }
 }
-
