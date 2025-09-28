@@ -1,22 +1,18 @@
-﻿using Ambev.DeveloperEvaluation.Domain.ValueObjects;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Domain.Validation
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.Shared
 {
-    /// <summary>
-    /// Validator CartItem Value Object.
-    /// </summary>
-    public class CartItemValidator : AbstractValidator<CartItem>
+    public class CartItemRequestValidator : AbstractValidator<CartItemRequest>
     {
         /// <summary>
-        /// Initializes a new instance of the CartItemValidator with defined validation rules.
+        /// Initializes a new instance of the CartItemRequestValidator with defined validation rules.
         /// </summary>
         /// <remarks>
         /// Validation rules include:
         /// - ProductId: Not Empty
         /// - Quantity: Value must be between 1 and 20
         /// </remarks>
-        public CartItemValidator()
+        public CartItemRequestValidator()
         {
             RuleFor(x => x.ProductId)
                 .NotEmpty();
