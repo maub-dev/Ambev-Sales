@@ -1,8 +1,12 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
+using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
 using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
+using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCart;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +63,32 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
                 Message = "Cart created successfully",
                 Data = _mapper.Map<CreateCartResponse>(response)
             });
+        }
+
+        /// <summary>
+        /// Deletes a cart
+        /// </summary>
+        /// <param name="id">The cart id to delete</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DeleteCart(Guid id, CancellationToken cancellationToken)
+        {
+            var request = new DeleteCartRequest { Id = id };
+            var validator = new DeleteCartRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<DeleteCartCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+            if (!response.Success)
+                return NotFound();
+
+            return Ok(new ApiResponse { Success = true, Message = "Cart deleted successfully." });
         }
     }
 }

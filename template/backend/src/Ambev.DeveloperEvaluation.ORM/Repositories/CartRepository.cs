@@ -66,7 +66,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         /// <returns>The cart if found, null otherwise</returns>
         public async Task<Cart?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            return await _context.Carts.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Carts.Include(x => x.Products).AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
         }
 
         /// <summary>

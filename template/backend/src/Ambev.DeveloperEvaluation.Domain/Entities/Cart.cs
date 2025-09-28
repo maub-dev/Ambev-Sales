@@ -28,6 +28,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the products of the cart
         /// </summary>
-        public IEnumerable<CartItem> Products { get; set; } = [];
+        public IEnumerable<CartItem> Products { get; set; } = new List<CartItem>();
     }
 }
