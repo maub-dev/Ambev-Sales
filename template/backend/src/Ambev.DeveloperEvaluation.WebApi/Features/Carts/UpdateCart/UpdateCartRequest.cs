@@ -1,6 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Carts.Shared;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.Shared;
-using Microsoft.AspNetCore.Mvc;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Carts.Shared;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCart
 {

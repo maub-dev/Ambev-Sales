@@ -1,5 +1,4 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
-using Ambev.DeveloperEvaluation.Domain.Specifications;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;

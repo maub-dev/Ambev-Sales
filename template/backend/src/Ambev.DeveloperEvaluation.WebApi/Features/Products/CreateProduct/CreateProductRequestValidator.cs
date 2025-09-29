@@ -1,5 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.Shared;
-using Ambev.DeveloperEvaluation.WebApi.Features.Products.Shared;
+﻿using Ambev.DeveloperEvaluation.WebApi.Features.Products.Shared;
 using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct
