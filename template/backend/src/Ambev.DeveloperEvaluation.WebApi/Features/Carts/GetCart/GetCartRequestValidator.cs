@@ -8,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart
         {
             RuleFor(x => x.Id)
                 .NotEmpty()
-                .WithMessage("Product ID is required");
+                .WithMessage("Cart ID is required");
         }
     }
 }
