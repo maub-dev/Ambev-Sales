@@ -1,5 +1,4 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Specifications;
 using System.Linq.Expressions;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories

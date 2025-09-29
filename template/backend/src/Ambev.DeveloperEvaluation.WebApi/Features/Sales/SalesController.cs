@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper.QueryableExtensions;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 {

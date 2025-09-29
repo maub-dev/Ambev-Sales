@@ -14,7 +14,6 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
