@@ -2,58 +2,34 @@
 
 `READ CAREFULLY`
 
+## Prerequisites
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- [Docker](https://www.docker.com/products/docker-desktop) installed and running
+- Visual Studio 2022 or higher (or any compatible IDE)
+
 ## Instructions
-**The test below will have up to 7 calendar days to be delivered from the date of receipt of this manual.**
+1. **Clone the repository**\
+git clone https://github.com/maub-dev/Ambev-Sales.git
 
-- The code must be versioned in a public Github repository and a link must be sent for evaluation once completed
-- Upload this template to your repository and start working from it
-- Read the instructions carefully and make sure all requirements are being addressed
-- The repository must provide instructions on how to configure, execute and test the project
-- Documentation and overall organization will also be taken into consideration
+2. **Open the solution in Visual Studio**\
+Open Ambev.DeveloperEvaluation.sln.
 
-## Use Case
-**You are a developer on the DeveloperStore team. Now we need to implement the API prototypes.**
+3. **Configure the database connection**\
+Open appsettings.json
+Change the connection string from: "Server=ambev_developer_evaluation_database" to: "Server=localhost"
 
-As we work with `DDD`, to reference entities from other domains, we use the `External Identities` pattern with denormalization of entity descriptions.
+4. **Update the database**\
+Run the following command in the terminal:
+dotnet ef database update --project Ambev.DeveloperEvaluation.ORM --startup-project Ambev.DeveloperEvaluation.WebApi -v
+This command will apply all migrations and create the required database schema in your local PostgreSQL instance.
 
-Therefore, you will write an API (complete CRUD) that handles sales records. The API needs to be able to inform:
+5. **Restore the original connection string**\
+After the database has been updated, revert the Server value in appsettings.json back to: "Server=ambev_developer_evaluation_database"
 
-* Sale number
-* Date when the sale was made
-* Customer
-* Total sale amount
-* Branch where the sale was made
-* Products
-* Quantities
-* Unit prices
-* Discounts
-* Total amount for each item
-* Cancelled/Not Cancelled
-
-It's not mandatory, but it would be a differential to build code for publishing events of:
-* SaleCreated
-* SaleModified
-* SaleCancelled
-* ItemCancelled
-
-If you write the code, **it's not required** to actually publish to any Message Broker. You can log a message in the application log or however you find most convenient.
-
-### Business Rules
-
-* Purchases above 4 identical items have a 10% discount
-* Purchases between 10 and 20 identical items have a 20% discount
-* It's not possible to sell above 20 identical items
-* Purchases below 4 items cannot have a discount
-
-These business rules define quantity-based discounting tiers and limitations:
-
-1. Discount Tiers:
-   - 4+ items: 10% discount
-   - 10-20 items: 20% discount
-
-2. Restrictions:
-   - Maximum limit: 20 items per product
-   - No discounts allowed for quantities below 4 items
+6. **Run the application**\
+Start the Web API project. You can use Visual Studio's debugger.
+This will automatically open your browser in Swagger. it will allow you to explore and test all available endpoints.
 
 ## Overview
 This section provides a high-level overview of the project and the various skills and competencies it aims to assess for developer candidates. 
