@@ -32,29 +32,6 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Validation
         }
 
         /// <summary>
-        /// Tests that validation fails for empty sale id.
-        /// This test verifies sale id that are:
-        /// - Empty
-        /// fail validation with appropriate error messages.
-        /// The SaleId is a required field.
-        /// </summary>
-        [Fact(DisplayName = "Given an empty sale id When validating Then should validate return validation errors")]
-        public void Given_EmptySaleId_When_Validating_Then_ShouldReturnValidationErrors()
-        {
-            // Arrange
-            var validator = new SaleItemValidator();
-            var saleItem = SaleTestData.GenerateValidSaleItem();
-            saleItem.SaleId = Guid.Empty;
-
-            // Act
-            var result = validator.Validate(saleItem);
-
-            // Assert
-            result.IsValid.Should().Be(false);
-            result.Errors.Should().Contain(x => x.PropertyName == nameof(saleItem.SaleId));
-        }
-
-        /// <summary>
         /// Tests that validation fails for empty product id.
         /// This test verifies product id that are:
         /// - Empty

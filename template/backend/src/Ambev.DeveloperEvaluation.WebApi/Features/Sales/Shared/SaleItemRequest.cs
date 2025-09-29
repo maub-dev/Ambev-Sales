@@ -3,6 +3,12 @@
     public class SaleItemRequest
     {
         /// <summary>
+        /// The sale item id which this item belongs
+        /// Must not be null
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// The sale id which this item belongs
         /// Must not be null
         /// </summary>

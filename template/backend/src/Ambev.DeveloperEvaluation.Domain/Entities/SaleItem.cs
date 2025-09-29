@@ -3,6 +3,10 @@ using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
+    /// <summary>
+    /// Represents a sale item in the system.
+    /// This entity follows domain-driven design principles and includes business rules validation.
+    /// </summary>
     public class SaleItem : BaseEntity
     {
         private const decimal Discount10 = 0.10m;

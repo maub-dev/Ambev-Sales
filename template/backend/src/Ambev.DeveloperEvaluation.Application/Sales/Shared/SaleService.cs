@@ -1,13 +1,14 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
-using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Services;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 using FluentValidation;
-using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.Shared
 {
+    /// <summary>
+    /// Implementation of ISaleService
+    /// </summary>
     public class SaleService : ISaleService
     {
         private readonly ISaleRepository _saleRepository;
@@ -19,6 +20,11 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Shared
             _productRepository = productRepository;
         }
 
+        /// <summary>
+        /// Cancel a whole sale
+        /// </summary>
+        /// <param name="id">The sale ID to be cancelled</param>
+        /// <param name="cancellationToken">The cancellation token</param>
         public async Task CancelAsync(Guid id, CancellationToken cancellationToken = default)
         {
             var sale = await _saleRepository.GetByIdAsync(id, cancellationToken);
@@ -30,6 +36,12 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Shared
             await _saleRepository.UpdateAsync(sale, cancellationToken);
         }
 
+        /// <summary>
+        /// Cancel a specific item in the sale
+        /// </summary>
+        /// <param name="saleId">The sale that contains the item to be canceled</param>
+        /// <param name="saleItemId">The sale item which is going to be canceled</param>
+        /// <param name="cancellationToken">The cancellation token</param>
         public async Task CancelItemAsync(Guid saleId, Guid saleItemId, CancellationToken cancellationToken = default)
         {
             var sale = await _saleRepository.GetByIdAsync(saleId, cancellationToken);
@@ -42,6 +54,12 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Shared
             await _saleRepository.UpdateAsync(sale, cancellationToken);
         }
 
+        /// <summary>
+        /// Creates a new Sale
+        /// </summary>
+        /// <param name="sale">The data to create the sale</param>
+        /// <param name="cancellationToken">The cancellatio token</param>
+        /// <returns>Returns the new created sale</returns>
         public async Task<Sale> CreateAsync(Sale sale, CancellationToken cancellationToken = default)
         {
             sale.Activate();
@@ -66,6 +84,12 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Shared
             return await _saleRepository.CreateAsync(sale, cancellationToken);
         }
 
+        /// <summary>
+        /// Udpates a sale
+        /// </summary>
+        /// <param name="sale">The sale to be updated</param>
+        /// <param name="cancellationToken">The cancellation token</param>
+        /// <returns>The updated sale</returns>
         public async Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default)
         {
             var existing = await _saleRepository.GetByIdAsync(sale.Id, cancellationToken);

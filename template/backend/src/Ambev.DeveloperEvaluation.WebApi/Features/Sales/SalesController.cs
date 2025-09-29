@@ -13,6 +13,9 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper.QueryableExtensions;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale;
+using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 {
@@ -62,6 +65,29 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
             var data = response.ProjectTo<GetAllSalesResponse>(_configurationProvider);
 
             return OkPaginated(await PaginatedList<GetAllSalesResponse>.CreateAsync(data, request.Page, request.Size));
+        }
+
+        /// <summary>
+        /// Gets a sale by ID
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The sale filtered by ID</returns>
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(GetSaleResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        {
+            var request = new GetSaleRequest { Id = id };
+            var validator = new GetSaleRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<GetSaleCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Ok(_mapper.Map<GetSaleResponse>(response));
         }
 
         /// <summary>

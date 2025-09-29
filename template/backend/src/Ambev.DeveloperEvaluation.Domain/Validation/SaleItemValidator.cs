@@ -14,7 +14,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
         /// </summary>
         /// <remarks>
         /// Validation rules include:
-        /// - SaleId: Not empty
         /// - ProductId: Not empty
         /// - Quantity: Not empty, value between 1 and 20
         /// - OriginalPrice: Not empty 
@@ -24,9 +23,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Validation
         /// </remarks>
         public SaleItemValidator()
         {
-            //RuleFor(x => x.SaleId)
-            //    .NotEmpty();
-
             RuleFor(x => x.ProductId)
                 .NotEmpty();
 
